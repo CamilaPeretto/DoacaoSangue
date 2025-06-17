@@ -6,22 +6,114 @@
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
  <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      max-width: 600px;
-      margin: auto;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-    }
-    .mensagem {
-      margin-top: 20px;
-      padding: 15px;
-      border: 2px solid #ccc;
-      border-radius: 10px;
-      background-color: #f9f9f9;
-    }
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fffafa;
+  color: #5a0000;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+ 
+.container {
+  width: 100%;
+  max-width: 400px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(200, 0, 0, 0.2);
+  padding: 2rem;
+  border: 2px solid #ffdddd;
+}
+ 
+h1 {
+  text-align: center;
+  color: #b30000;
+  margin-bottom: 2rem;
+}
+ 
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #ffe6e6;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(255, 0, 0, 0.1);
+  border: 1px solid #ffb3b3;
+  transition: all 0.3s ease;
+  max-width: 100%;
+}
+ 
+input[type="text"],
+input[type="number"] {
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #ffc0cb;
+  background-color: #fff0f0;
+  outline: none;
+  color: #5a0000;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.1);
+}
+ 
+input[type="text"]:focus,
+input[type="number"]:focus {
+  border: 1px solid #ff4d4d;
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+}
+ 
+label {
+  font-weight: 600;
+  color: #800000;
+}
+ 
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+ 
+.radio-group label {
+  background: #ffe5e5;
+  padding: 0.6rem 1rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(255, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+ 
+button {
+  padding: 0.8rem;
+  border: none;
+  background-color: #cc0000;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+ 
+button:hover {
+  background-color: #a30000;
+}
+ 
+.mensagem {
+  margin-top: 2rem;
+  padding: 1.2rem;
+  background-color: #fff0f0;
+  border-left: 5px solid #cc0000;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(200, 0, 0, 0.1);
+  color: #5a0000;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  }
   </style>
 </head>
 <body>
