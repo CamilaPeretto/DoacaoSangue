@@ -123,7 +123,7 @@ button:hover {
    <div id="app">
     <h1>Cadastro para Doação de Sangue</h1>
  
-    <form @submit.prevent="gerarMensagem"> 
+    <form @submit.prevent="gerarMensagem"> <!-- Impede reload da página e chama a função gerarMensagem -->
       <label>Nome:
         <input type="text" v-model="nome" required> 
       </label>
@@ -138,38 +138,43 @@ button:hover {
       </label>
  
       <label>Tipo Sanguíneo:</label>
+       <!-- Renderiza os botões de seleção com base na lista tiposSanguineos -->
       <label v-for="tipo in tiposSanguineos" :key="tipo"> 
+        <!-- Ligação dinâmica entre o valor selecionado e a variável tipoSanguineo -->
         <input type="radio" name="tipo" :value="tipo" v-model="tipoSanguineo" required> {{ tipo }} 
       </label>
  
       <br><br>
       <button type="submit">Enviar</button>
     </form>
- 
+    <!-- Só exibe a mensagem se ela existir -->
     <div class="mensagem" v-if="mensagem"> 
+      <!-- Interpreta tags HTML dentro da string da mensagem -->
       <p v-html="mensagem"></p> 
     </div>
   </div>
  
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script>
-    const { createApp, ref } = Vue;
+    const { createApp, ref } = Vue; // Importa métodos do Vue: createApp para iniciar a app e ref para reatividade
 
  
     createApp({
       setup() { 
-
+        // Estados reativos ligados ao formulário
         const nome = ref('');
         const idade = ref('');
         const peso = ref('');
         const altura = ref('');
         const tipoSanguineo = ref('');
         const mensagem = ref('');
-
+        
+        // Tipos sanguíneos disponíveis para seleção
         const tiposSanguineos = [
           'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'
         ];
 
+        // Mapeamento das possíveis doações por tipo sanguíneo
         const doacoes = {
           'A+': ['A+', 'AB+'],
           'A-': ['A+', 'A-', 'AB+', 'AB-'],
@@ -181,6 +186,7 @@ button:hover {
           'O-': ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']
         };
 
+        // Gera a mensagem personalizada com base nos dados do usuário e nas regras de doação
         const gerarMensagem = () => {
         
           const podeDoarPara = doacoes[tipoSanguineo.value] || [];
@@ -192,7 +198,8 @@ button:hover {
             Seu tipo sanguíneo é ${tipoSanguineo.value} e você pode doar para: <strong>${podeDoarPara.join(', ')}</strong>.
           `;
         };
- 
+        
+        // Torna as variáveis e funções acessíveis ao template
         return {
           nome,
           idade,
@@ -205,7 +212,7 @@ button:hover {
         };
       }
  
-    }).mount('#app'); 
+    }).mount('#app'); // Monta a aplicação no elemento com id="app"
   </script>
 </body>
 </html>
