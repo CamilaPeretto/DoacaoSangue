@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulário Vue Básico</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+ <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    .mensagem {
+      margin-top: 20px;
+      padding: 15px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app">
+    <form @submit.prevent="gerarMensagem">
+      <label>Nome:</label>
+      <input type="text" v-model="nome"><br>
+
+      <label>Idade:</label>
+      <input type="number" v-model="idade"><br>
+
+      <label>Peso:</label>
+      <input type="number" v-model="peso"><br>
+
+      <label>Altura:</label>
+      <input type="number" v-model="altura" step="0.01"><br>
+
+      <label>Tipo sanguíneo:</label>
+      <select v-model="tipoSanguineo">
+        <option disabled value="">Selecione</option>
+        <option>A+</option>
+        <option>A-</option>
+        <option>B+</option>
+        <option>B-</option>
+        <option>AB+</option>
+        <option>AB-</option>
+        <option>O+</option>
+        <option>O-</option>
+      </select><br>
+
+      <button type="submit">Enviar</button>
+    </form>
+
+    <div v-html="mensagem"></div>
+  </div>
+
+  <script>
+    const { createApp, ref } = Vue;
+
+    createApp({
+      setup() {
+        const nome = ref('');
+        const idade = ref('');
+        const peso = ref('');
+        const altura = ref('');
+        const tipoSanguineo = ref('');
+        const mensagem = ref('');
+
+        const gerarMensagem = () => {
+        
+        };
+
+        return {
+          nome,
+          idade,
+          peso,
+          altura,
+          tipoSanguineo,
+          mensagem,
+          gerarMensagem
+        };
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
