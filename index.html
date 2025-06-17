@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forms</title>
+</head>
+<body>
+  <style>
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fffafa;
+  color: #5a0000;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+ 
+.container {
+  width: 100%;
+  max-width: 400px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(200, 0, 0, 0.2);
+  padding: 2rem;
+  border: 2px solid #ffdddd;
+}
+ 
+h1 {
+  text-align: center;
+  color: #b30000;
+  margin-bottom: 2rem;
+}
+ 
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #ffe6e6;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(255, 0, 0, 0.1);
+  border: 1px solid #ffb3b3;
+  transition: all 0.3s ease;
+  max-width: 100%;
+}
+ 
+input[type="text"],
+input[type="number"] {
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #ffc0cb;
+  background-color: #fff0f0;
+  outline: none;
+  color: #5a0000;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.1);
+}
+ 
+input[type="text"]:focus,
+input[type="number"]:focus {
+  border: 1px solid #ff4d4d;
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+}
+ 
+label {
+  font-weight: 600;
+  color: #800000;
+}
+ 
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+ 
+.radio-group label {
+  background: #ffe5e5;
+  padding: 0.6rem 1rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(255, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+ 
+button {
+  padding: 0.8rem;
+  border: none;
+  background-color: #cc0000;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+ 
+button:hover {
+  background-color: #a30000;
+}
+ 
+.mensagem {
+  margin-top: 2rem;
+  padding: 1.2rem;
+  background-color: #fff0f0;
+  border-left: 5px solid #cc0000;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(200, 0, 0, 0.1);
+  color: #5a0000;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+ 
+ 
+  </style>
+ 
+   <div id="app">
+    <h1>Cadastro para Doação de Sangue</h1>
+ 
+    <form @submit.prevent="gerarMensagem"> <!-- Impede reload da página e chama a função gerarMensagem -->
+      <label>Nome:
+        <input type="text" v-model="nome" required> 
+      </label>
+      <label>Idade:
+        <input type="number" v-model.number="idade" required> 
+      </label>
+      <label>Peso (kg):
+        <input type="number" v-model.number="peso" required step="0.1"> 
+      </label>
+      <label>Altura (m):
+        <input type="number" v-model.number="altura" required step="0.01">
+      </label>
+ 
+      <label>Tipo Sanguíneo:</label>
+       <!-- Renderiza os botões de seleção com base na lista tiposSanguineos -->
+      <label v-for="tipo in tiposSanguineos" :key="tipo"> 
+        <!-- Ligação dinâmica entre o valor selecionado e a variável tipoSanguineo -->
+        <input type="radio" name="tipo" :value="tipo" v-model="tipoSanguineo" required> {{ tipo }} 
+      </label>
+ 
+      <br><br>
+      <button type="submit">Enviar</button>
+    </form>
+    <!-- Só exibe a mensagem se ela existir -->
+    <div class="mensagem" v-if="mensagem"> 
+      <!-- Interpreta tags HTML dentro da string da mensagem -->
+      <p v-html="mensagem"></p> 
+    </div>
+  </div>
+ 
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp, ref } = Vue; // Importa métodos do Vue: createApp para iniciar a app e ref para reatividade
+
+ 
+    createApp({
+      setup() { 
+        // Estados reativos ligados ao formulário
+        const nome = ref('');
+        const idade = ref('');
+        const peso = ref('');
+        const altura = ref('');
+        const tipoSanguineo = ref('');
+        const mensagem = ref('');
+        
+        // Tipos sanguíneos disponíveis para seleção
+        const tiposSanguineos = [
+          'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'
+        ];
+
+        // Mapeamento das possíveis doações por tipo sanguíneo
+        const doacoes = {
+          'A+': ['A+', 'AB+'],
+          'A-': ['A+', 'A-', 'AB+', 'AB-'],
+          'B+': ['B+', 'AB+'],
+          'B-': ['B+', 'B-', 'AB+', 'AB-'],
+          'AB+': ['AB+'],
+          'AB-': ['AB+', 'AB-'],
+          'O+': ['A+', 'B+', 'O+', 'AB+'],
+          'O-': ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']
+        };
+
+        // Gera a mensagem personalizada com base nos dados do usuário e nas regras de doação
+        const gerarMensagem = () => {
+        
+          const podeDoarPara = doacoes[tipoSanguineo.value] || [];
+ 
+          mensagem.value = `
+            Oiii ${nome.value}, parabéns por chegar até seus ${idade.value} anos!<br>
+            Com ${altura.value}m de altura você está bem alta, ein!<br>
+            E seu peso de ${peso.value}kg tá ótimo, viu? <br>
+            Seu tipo sanguíneo é ${tipoSanguineo.value} e você pode doar para: <strong>${podeDoarPara.join(', ')}</strong>.
+          `;
+        };
+        
+        // Torna as variáveis e funções acessíveis ao template
+        return {
+          nome,
+          idade,
+          peso,
+          altura,
+          tipoSanguineo,
+          mensagem,
+          tiposSanguineos,
+          gerarMensagem
+        };
+      }
+ 
+    }).mount('#app'); // Monta a aplicação no elemento com id="app"
+  </script>
+</body>
+</html>
